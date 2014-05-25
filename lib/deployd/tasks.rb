@@ -7,13 +7,15 @@ namespace :deployd do
 		rev 			= ENV['REVISION']
 		branch 			= ENV['BRANCH']
 
+		use_ssl 		= false || ENV['USE_SSL']
+
 		puts "Deploying Repo(#{repo} at #{branch}) on #{release_env} server heading #{rev}"
 		commit = `git log --format="%H" -n 1`
 
 		uri = URI.parse('http://localhost:4000/api/v1/deployments') # Insert the address of the application api
 
 		http = Net::HTTP.new(uri.host, uri.port)
-		# http.use_ssl = true
+		http.use_ssl = true if use_ssl
 
 		request = Net::HTTP::Post.new(uri.path, {'Content-Type' =>'application/json'})
 

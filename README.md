@@ -1,2 +1,4 @@
-# Deployd [![Gem Version](https://badge.fury.io/rb/deployd.png)](http://badge.fury.io/rb/deployd)
-A deploy tracking gem
+# Deployd
+A deploy tracking gem for Ruby on Rails applications, supporting [https://github.com/alessiosantocs/deploydapp](https://github.com/alessiosantocs/deploydapp)
+
+Things to do...
