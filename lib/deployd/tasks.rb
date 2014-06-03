@@ -2,10 +2,12 @@ require 'net/http'
 
 namespace :deployd do
 	task :start do
+
 		release_env 	= ENV['TO']
 		repo 			= ENV['REPO']
 		rev 			= ENV['REVISION']
 		branch 			= ENV['BRANCH']
+		app_id 			= ENV['APP_ID']
 
 		use_ssl 		= false || ENV['USE_SSL']
 
@@ -24,7 +26,8 @@ namespace :deployd do
 				:repo => repo,
 				:environment => release_env,
 				:branch => branch,
-				:revision => rev
+				:revision => rev,
+				:deployable_application_id => app_id
 			}
 		}
 
