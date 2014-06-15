@@ -37,4 +37,24 @@ namespace :deployd do
 
 		puts response.body
 	end
+
+	desc "Task to install the gem requirements"
+	task :install, [:public_token] do |t, args|
+		public_token 	= args[:public_token]
+
+		source 			= File.join(File.dirname(__FILE__), '..', '..', 'config', 'initializers', 'deployd.rb')
+      	destination 	= Fine.new(Rails.root.to_s + 'config/initializers/deployd.rb', 'w')
+
+      	# FileUtils.cp(source, destination)
+
+      	IO.readlines(source.to_s).each do |line|
+      		str = line.chomp('# ')
+
+      		str = "\tconfig.token = '#{public_token}'" if str.index('config.token').present?
+
+      		destination.write(str)
+      	end
+
+      	destination.close
+	end
 end
