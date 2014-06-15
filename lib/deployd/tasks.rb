@@ -48,8 +48,6 @@ namespace :deployd do
       	# FileUtils.cp(source, destination)
 
       	IO.readlines(source.to_s).each do |line|
-      		str = line.chomp('# ')
-
       		str = "\tconfig.token = '#{public_token}'" if str.index('config.token').present?
 
       		destination.write(str)
