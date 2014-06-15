@@ -1,6 +1,7 @@
 require "json"
 require "deployd/version"
 require "deployd/capistrano"
+require "deployd/config"
 require 'parse-ruby-client'
 require 'bitbucket_rest_api'
 

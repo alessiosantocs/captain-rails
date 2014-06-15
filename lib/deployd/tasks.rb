@@ -43,7 +43,7 @@ namespace :deployd do
 		public_token 	= args[:public_token]
 
 		source 			= File.join(File.dirname(__FILE__), '..', '..', 'config', 'initializers', 'deployd.rb')
-      	destination 	= Fine.new(Rails.root.to_s + 'config/initializers/deployd.rb', 'w')
+      	destination 	= File.new(Rails.root.to_s + '/config/initializers/deployd.rb', 'w')
 
       	# FileUtils.cp(source, destination)
 
