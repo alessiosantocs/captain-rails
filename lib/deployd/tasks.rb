@@ -51,7 +51,7 @@ namespace :deployd do
       		str = line
       		str = "\tconfig.token = '#{public_token}'" if str.index('config.token').present?
 
-      		destination.write(str + "\n\r")
+      		destination.write(str + "\n")
       	end
 
       	destination.close
