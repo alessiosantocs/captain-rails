@@ -1,7 +1,7 @@
-# Defines deploy:notify_deployd which will send information about the deploy to Deployd.
+# Defines deploy:notify_captain which will send information about the deploy to Captain.
 require 'capistrano'
 
-module Deployd
+module Captain
 	module Capistrano
 		# Returns an empty quoted String if +str+ has a length of zero.
 		def self.shellescape(str)
@@ -26,28 +26,28 @@ module Deployd
 
 		def self.load_into(configuration)
 			configuration.load do
-				after "deploy",            "deployd:deploy"
-				after "deploy:migrations", "deployd:deploy"
-				after "deploy:cold",       "deployd:deploy"
+				after "deploy",            "captain:deploy"
+				after "deploy:migrations", "captain:deploy"
+				after "deploy:cold",       "captain:deploy"
 
-				namespace :deployd do
+				namespace :captain do
 					desc <<-DESC
-						Notify Deployd of the deployment by running the notification on the REMOTE machine.
+						Notify Captain of the deployment by running the notification on the REMOTE machine.
 							- Run remotely so we use remote API keys, environment, etc.
 					DESC
 					task :deploy, :except => { :no_release => true } do
 						rails_env 	= fetch(:rails_env, "production")
-						deployd_env = fetch(:deployd_env, fetch(:rails_env, "production"))
+						captain_env = fetch(:captain_env, fetch(:rails_env, "production"))
 						branch 		= fetch(:branch, "master")
 						local_user 	= ENV['USER'] || ENV['USERNAME']
 						executable 	= RUBY_PLATFORM.downcase.include?('mswin') ? fetch(:rake, 'rake.bat') : fetch(:rake, 'bundle exec rake ')
 						directory 	= configuration.release_path
 						
-						notify_command = "cd #{directory}; #{executable} RAILS_ENV=#{rails_env} deployd:start TO=#{deployd_env} REVISION=#{current_revision} REPO=#{repository} BRANCH=#{branch} USER=#{Deployd::Capistrano::shellescape(local_user)}"
+						notify_command = "cd #{directory}; #{executable} RAILS_ENV=#{rails_env} captain:start TO=#{captain_env} REVISION=#{current_revision} REPO=#{repository} BRANCH=#{branch} USER=#{Captain::Capistrano::shellescape(local_user)}"
 						notify_command << " DRY_RUN=true" if dry_run
 						notify_command << " API_KEY=#{ENV['API_KEY']}" if ENV['API_KEY']
 						
-						logger.info "Notifying Deployd of Deploy (#{notify_command})"
+						logger.info "Notifying Captain of Deploy (#{notify_command})"
 						if configuration.dry_run
 							logger.info "DRY RUN: Notification not actually run."
 						else
@@ -55,7 +55,7 @@ module Deployd
 							run(notify_command, :once => true) { |ch, stream, data| result << data }
 							# TODO: Check if SSL is active on account via result content.
 						end
-						puts "Deployd Notification Complete. CALLING THE RAKE"
+						puts "Captain Notification Complete. CALLING THE RAKE"
 					end
 				end
 			end
@@ -64,5 +64,5 @@ module Deployd
 end
 
 if Capistrano::Configuration.instance
-	Deployd::Capistrano.load_into(Capistrano::Configuration.instance)
+	Captain::Capistrano.load_into(Capistrano::Configuration.instance)
 end

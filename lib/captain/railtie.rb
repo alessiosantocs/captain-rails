@@ -1,9 +1,9 @@
 require 'rails'
 
-module Deployd
+module Captain
 	class Railtie < Rails::Railtie
 		rake_tasks do
-			require 'deployd/tasks'
+			require 'captain/tasks'
 		end
 	end
 end

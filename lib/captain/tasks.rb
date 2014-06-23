@@ -1,6 +1,6 @@
 require 'net/http'
 
-namespace :deployd do
+namespace :captain do
 	task :start do
 
 		release_env 	= ENV['TO']
@@ -53,14 +53,14 @@ namespace :deployd do
 		response = http.request(request)
 		
 		if response.kind_of?(Net::HTTPOK)
-			source 			= File.join(File.dirname(__FILE__), '..', '..', 'config', 'initializers', 'deployd.rb')
-			destination 	= File.new(Rails.root.to_s + '/config/initializers/deployd.rb', 'w')
+			source 			= File.join(File.dirname(__FILE__), '..', '..', 'config', 'initializers', 'captain.rb')
+			destination 	= File.new(Rails.root.to_s + '/config/initializers/captain.rb', 'w')
 
 			# FileUtils.cp(source, destination)
 
 			IO.readlines(source.to_s).each do |line|
 				str = line
-				str = "\tconfig.token = '#{public_token}'" if str.index('config.token').present?
+				str = "\tconfig.public_key = '#{public_token}'" if str.index('config.public_key').present?
 
 				destination.write(str + "\n")
 			end
