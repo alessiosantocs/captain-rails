@@ -67,5 +67,15 @@ namespace :captain do
 
 			destination.close
 		end
+
+		if File.exist?(Rails.root.to_s + '/config/deploy.rb')
+			# install gem requirements on deploy config
+			deploy_file = File.new(Rails.root.to_s + '/config/deploy.rb', 'a')
+
+			deploy_file.write("require '../config/boot'")
+			deploy_file.write("require 'deployd/capistrano'")
+
+			deploy_file.close
+		end
 	end
 end
