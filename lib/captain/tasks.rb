@@ -1,5 +1,4 @@
 require 'net/http'
-puts "================= TASKS ON THE GO"
 
 namespace :captain do
 	task :start do
