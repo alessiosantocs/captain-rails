@@ -1,4 +1,4 @@
-require 'captain'
+require 'captain-rails'
 
 module Captain
   module Rails
