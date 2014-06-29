@@ -3,7 +3,6 @@ require "captain/version"
 require "captain/config"
 
 module Captain
-	logger.info "Including Railtie.rb"
 	require "captain/railtie.rb" if defined?(Rails)
 
 	@config = Captain::Config.new
