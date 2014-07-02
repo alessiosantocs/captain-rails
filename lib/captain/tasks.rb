@@ -15,7 +15,7 @@ namespace :captain do
 		puts "Deploying Repo(#{repo} at #{branch}) on #{release_env} server heading #{rev}"
 		commit = `git log --format="%H" -n 1`
 
-		uri = URI.parse('http://localhost:3000/api/v1/deployments') # Insert the address of the application api
+		uri = URI.parse('http://deploydapp.herokuapp.com/api/v1/deployments') # Insert the address of the application api
 
 		http = Net::HTTP.new(uri.host, uri.port)
 		http.use_ssl = true if use_ssl
@@ -44,7 +44,7 @@ namespace :captain do
 		public_token 	= args[:public_token]
 
       	# call the API
-      	uri = URI.parse("http://localhost:3000/api/v1/deployable_applications/#{public_token}/activate") # Insert the address of the application api
+      	uri = URI.parse("http://deploydapp.herokuapp.com/api/v1/deployable_applications/#{public_token}/activate") # Insert the address of the application api
 
 		http = Net::HTTP.new(uri.host, uri.port)
 		# http.use_ssl = true if use_ssl
