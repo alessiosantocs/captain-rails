@@ -13,7 +13,9 @@ namespace :captain do
 		use_ssl 		= false || ENV['USE_SSL']
 
 		puts "Deploying Repo(#{repo} at #{branch}) on #{release_env} server heading #{rev}"
-		commit = `git log --format="%H" -n 1`
+
+		commit_author_name = `git config --get user.name`
+		commit_author_email = `git config --get user.email`
 
 		uri = URI.parse('http://deploydapp.herokuapp.com/api/v1/deployments') # Insert the address of the application api
 
@@ -28,7 +30,9 @@ namespace :captain do
 				:environment => release_env,
 				:branch => branch,
 				:revision => rev,
-				:deployable_application_id => app_id
+				:deployable_application_id => app_id,
+				:author_name => commit_author_name,
+				:author_email => commit_author_email
 			}
 		}
 
