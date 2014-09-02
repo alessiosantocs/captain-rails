@@ -19,7 +19,10 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.post_install_message = "Thanks for installing Captain! Get to know what it does => http://captainrb.co"
+  spec.post_install_message = "________________________________________________________________________________\n\n
+
+                                Thanks for installing Captain! Get to know what it does => http://captainrb.co \n
+                               ________________________________________________________________________________"
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
