@@ -3,19 +3,26 @@ require 'net/http'
 namespace :captain do
 	task :start => :environment do
 
+		# Deploying TO [app environment] 
+		# 			BRANCH [the master branch] of the 
+		# 			REPO [repo address] 
+		# 			REVISION [latest commit hex] 
 		release_env 	= ENV['TO']
 		repo 			= ENV['REPO']
 		rev 			= ENV['REVISION']
 		branch 			= ENV['BRANCH']
 
+		# Retrieve author email and name from env
+		commit_author_name = ENV['COMMIT_AUTHOR_NAME']
+		commit_author_email = ENV['COMMIT_AUTHOR_EMAIL']
+
+		# Get the app id from the gem config object
 		app_id 			= Captain.config.public_key
 
+		# Up to you to use ssl
 		use_ssl 		= false || ENV['USE_SSL']
 
 		puts "Deploying Repo(#{repo} at #{branch}) on #{release_env} server heading #{rev}"
-
-		commit_author_name = `git config --get user.name`
-		commit_author_email = `git config --get user.email`
 
 		uri = URI.parse('http://deploydapp.herokuapp.com/api/v1/deployments') # Insert the address of the application api
 

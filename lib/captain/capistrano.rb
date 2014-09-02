@@ -36,6 +36,7 @@ module Captain
 							- Run remotely so we use remote API keys, environment, etc.
 					DESC
 					task :deploy, :except => { :no_release => true } do
+						# Get environment, branch, local user, executable
 						rails_env 	= fetch(:rails_env, "production")
 						captain_env = fetch(:captain_env, fetch(:rails_env, "production"))
 						branch 		= fetch(:branch, "master")
@@ -43,7 +44,12 @@ module Captain
 						executable 	= RUBY_PLATFORM.downcase.include?('mswin') ? fetch(:rake, 'rake.bat') : fetch(:rake, 'bundle exec rake ')
 						directory 	= configuration.release_path
 						
-						notify_command = "cd #{directory}; #{executable} RAILS_ENV=#{rails_env} captain:start TO=#{captain_env} REVISION=#{current_revision} REPO=#{repository} BRANCH=#{branch} USER=#{Captain::Capistrano::shellescape(local_user)}"
+						# Get the username and email from local git
+						local_author_name = `git config --get user.name`
+						local_author_email = `git config --get user.email`
+
+						# Create the basic command
+						notify_command = "cd #{directory}; #{executable} RAILS_ENV=#{rails_env} captain:start TO=#{captain_env} REVISION=#{current_revision} REPO=#{repository} BRANCH=#{branch} USER=#{Captain::Capistrano::shellescape(local_user)} COMMIT_AUTHOR_NAME=#{local_author_name} COMMIT_AUTHOR_EMAIL=#{local_author_email}"
 						notify_command << " DRY_RUN=true" if dry_run
 						notify_command << " API_KEY=#{ENV['API_KEY']}" if ENV['API_KEY']
 						
