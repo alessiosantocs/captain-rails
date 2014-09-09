@@ -49,7 +49,7 @@ module Captain
 						local_author_email = `git config --get user.email`
 
 						# Create the basic command
-						notify_command = "cd #{directory}; #{executable} RAILS_ENV=#{rails_env} captain:start TO=#{captain_env} REVISION=#{current_revision} REPO=#{repository} BRANCH=#{branch} USER=#{Captain::Capistrano::shellescape(local_user)} COMMIT_AUTHOR_NAME=#{local_author_name} COMMIT_AUTHOR_EMAIL=#{local_author_email}"
+						notify_command = "cd #{directory}; #{executable} RAILS_ENV=#{rails_env} captain:start TO=#{captain_env} REVISION=#{current_revision} REPO=#{repository} BRANCH=#{branch} USER=#{Captain::Capistrano::shellescape(local_user)} COMMIT_AUTHOR_NAME=\"#{local_author_name}\" COMMIT_AUTHOR_EMAIL=\"#{local_author_email}\""
 						notify_command << " DRY_RUN=true" if dry_run
 						notify_command << " API_KEY=#{ENV['API_KEY']}" if ENV['API_KEY']
 						
